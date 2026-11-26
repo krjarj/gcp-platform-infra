@@ -2,7 +2,6 @@ name: terraform
 
 on:
   pull_request:
-    paths: ["envs/**", "modules/**", ".github/workflows/**"]
   push:
     branches: [main]
     paths: ["envs/**", "modules/**", ".github/workflows/**"]
@@ -65,16 +64,6 @@ jobs:
         working-directory: envs/prod
     steps:
       - uses: actions/checkout@v4
-      - name: Vis OIDC-claims (debug)
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const token = await core.getIDToken();
-            const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-            core.info(`sub=${claims.sub}`);
-            core.info(`repository=${claims.repository}`);
-            core.info(`environment=${claims.environment}`);
-            core.info(`ref=${claims.ref}`);
       - uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ vars.WIF_PROVIDER }}
