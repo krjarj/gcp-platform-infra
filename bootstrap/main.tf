@@ -142,8 +142,8 @@ resource "google_service_account_iam_member" "wif_dev" {
 resource "google_service_account_iam_member" "wif_prod" {
   service_account_id = google_service_account.tf["prod"].name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principal://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/subject/repo:${var.github_owner}/${var.github_repo}:environment:prod"
-}
+  member             = "principal://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/subject/repo:${var.github_owner}@${var.github_owner_id}/${var.github_repo}@${var.github_repo_id}:environment:prod"
+  }
 
 # Hver service account får rettigheder i sit eget miljøprojekt
 resource "google_project_iam_member" "tf_editor" {
